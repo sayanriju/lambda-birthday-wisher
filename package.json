@@ -1,0 +1,24 @@
+{
+  "name": "lambda-birthday-wisher",
+  "version": "1.0.0",
+  "description": "A lambda function to auto wish people via email on their birthdays",
+  "main": "main.js",
+  "files": [
+    "main.js"
+  ],
+  "scripts": {
+    "start": "claudia create --name lambda-birthday-wisher --region us-east-1 --handler main.handler --policies policies --role lambda-birthday-wisher-executor",
+    "test": "claudia test-lambda --event test.json",
+    "schedule": "claudia add-scheduled-event --event birthdays.json --name birthday-alerts --schedule '32 18 * * ? *'",
+    "deploy": "claudia update"
+  },
+  "author": "Sayan \"Riju\" Chakrabarti <s26c.sayan@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "claudia": "^3.3.1"
+  },
+  "dependencies": {
+    "date-fns": "^1.29.0",
+    "node-ses": "^2.1.0"
+  }
+}

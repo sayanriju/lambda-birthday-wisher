@@ -1,0 +1,7 @@
+{
+  "lambda": {
+    "role": "lambda-birthday-wisher-executor",
+    "name": "lambda-birthday-wisher",
+    "region": "us-east-1"
+  }
+}
