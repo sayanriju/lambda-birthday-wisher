@@ -9,7 +9,7 @@
   "scripts": {
     "start": "claudia create --name lambda-birthday-wisher --region us-east-1 --handler main.handler --policies policies --role lambda-birthday-wisher-executor",
     "test": "claudia test-lambda --event test.json",
-    "schedule": "claudia add-scheduled-event --event birthdays.json --name birthday-alerts --schedule '32 18 * * ? *'",
+    "schedule": "claudia add-scheduled-event --event birthdays.json --name birthday-alerts --schedule 'cron(32 18 * * ? *)'",
     "deploy": "claudia update"
   },
   "author": "Sayan \"Riju\" Chakrabarti <s26c.sayan@gmail.com>",
