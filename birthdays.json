@@ -12,9 +12,25 @@
       "birthday": "03/06/1984"
     },
     {
-      "name": "Riju",
+      "name": "Kiran",
       "email": "s26csayan@gmail.com",
-      "birthday": "05/04/1983"
+      "birthday": "11/01/1990"
+    },
+    {
+      "name": "Pooja",
+      "email": "hr@logic-square.com",
+      "birthday": "02/22/1989"
+    },
+    {
+      "name": "Niladri",
+      "email": "niladri@logic-square.com",
+      "birthday": "09/24/1989"
+    },
+    {
+      "name": "Vikash",
+      "email": "niladri@logic-square.com",
+      "birthday": "08/11/1989"
     }
+
   ]
 }
