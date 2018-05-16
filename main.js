@@ -8,7 +8,15 @@ const sendEmail = person => new Promise(resolve => client.sendEmail({
   from: "s26c.sayan@gmail.com",
   to: person.email,
   subject: "Happy Birthday!!",
-  message: `Hey ${person.name}, \r\n Wish You Many Happy Returns of This Day!! :=)`
+  message: `<p>
+  Hey ${person.name},
+  </p>
+  <p>Wish You Many Happy Returns of This Day!! :=)</p>
+  <br/>
+  <br/>
+  <p>-------------------------------------------------------</p>
+  <i style="font-size: small;">Sent using https://github.com/sayanriju/lambda-birthday-wisher</i>
+  `
 }, (err) => {
   if (err) {
     // console.log("[[SES ERR]] ", err)
@@ -22,7 +30,7 @@ const sendEmail = person => new Promise(resolve => client.sendEmail({
 exports.handler = function (event, context) {
   const now = event.now || new Date() // in UTC
   const offset = event.utc_offset_minutes
-  const { people } = event.people
+  const { people } = event
   const promises = []
   console.log("==> %s, %s", offset, JSON.stringify(people))
   people
