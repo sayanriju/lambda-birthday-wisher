@@ -29,26 +29,30 @@ const sendEmail = person => new Promise(resolve => client.sendEmail({
   }
 }))
 
-const sendSMS = person => new Promise((resolve, reject) => {
+const sendSMS = person => new Promise((resolve) => {
   if (!process.env.TEXTLOCAL_API_KEY || !process.env.TEXTLOCAL_SENDER || !process.env.TEXTLOCAL_SERVICE_EP) {
-    resolve("SMS DISABLED") // exit silently & gracefully
+    console.log("==> SMS DISABLED");
+    return resolve("SMS DISABLED") // exit silently & gracefully
   }
   const { number, name } = person
-  if (number === undefined) resolve("NO NUMBER") // exit silently & gracefully
+  if (number === undefined) {
+    console.log(" ==> NO NUMBER for ", person.name);
+    return resolve("NO NUMBER") // exit silently & gracefully
+  }
   const query = querystring.stringify({
     apiKey: process.env.TEXTLOCAL_API_KEY,
     numbers: number,
     message: `Hello ${name}, Wish You Many Happy Returns of This Day!!`,
     sender: process.env.TEXTLOCAL_SENDER
   })
-  fetch(`${process.env.TEXTLOCAL_SERVICE_EP}?${query}`)
+  return fetch(`${process.env.TEXTLOCAL_SERVICE_EP}?${query}`)
     .then((response) => {
       console.log("TEXTLOCAL Success: ", response)
       resolve("OK")
     })
     .catch((err) => {
       console.log("TEXTLOCAL Error: ", err.message)
-      reject(new Error("FAILED TO SEND SMS"))
+      resolve("FAILED TO SEND SMS") // exit silently & gracefully
     })
 })
 
@@ -62,6 +66,7 @@ exports.handler = function (event, context) {
     .map(p => ({
       name: p.name,
       email: p.email,
+      number: p.number,
       birthday: addMinutes(p.birthday, offset) // to UTC
     }))
     .filter(p => isSameDay(setYear(p.birthday, getYear(now)), now))
