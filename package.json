@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "date-fns": "^1.29.0",
+    "node-fetch": "^2.1.2",
     "node-ses": "^2.1.0"
   }
 }

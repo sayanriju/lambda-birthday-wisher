@@ -3,6 +3,8 @@ const {
 } = require("date-fns")
 const ses = require("node-ses")
 const client = ses.createClient()
+const fetch = require("node-fetch")
+const querystring = require("querystring")
 
 const sendEmail = person => new Promise(resolve => client.sendEmail({
   from: "s26c.sayan@gmail.com",
@@ -27,6 +29,29 @@ const sendEmail = person => new Promise(resolve => client.sendEmail({
   }
 }))
 
+const sendSMS = person => new Promise((resolve, reject) => {
+  if (!process.env.TEXTLOCAL_API_KEY || !process.env.TEXTLOCAL_SENDER || !process.env.TEXTLOCAL_SERVICE_EP) {
+    resolve("SMS DISABLED") // exit silently & gracefully
+  }
+  const { number, name } = person
+  if (number === undefined) resolve("NO NUMBER") // exit silently & gracefully
+  const query = querystring.stringify({
+    apiKey: process.env.TEXTLOCAL_API_KEY,
+    numbers: number,
+    message: `Hello ${name}, Wish You Many Happy Returns of This Day!!`,
+    sender: process.env.TEXTLOCAL_SENDER
+  })
+  fetch(`${process.env.TEXTLOCAL_SERVICE_EP}?${query}`)
+    .then((response) => {
+      console.log("TEXTLOCAL Success: ", response)
+      resolve("OK")
+    })
+    .catch((err) => {
+      console.log("TEXTLOCAL Error: ", err.message)
+      reject(new Error("FAILED TO SEND SMS"))
+    })
+})
+
 exports.handler = function (event, context) {
   const now = event.now || new Date() // in UTC
   const offset = event.utc_offset_minutes
@@ -40,7 +65,7 @@ exports.handler = function (event, context) {
       birthday: addMinutes(p.birthday, offset) // to UTC
     }))
     .filter(p => isSameDay(setYear(p.birthday, getYear(now)), now))
-    .forEach(p => promises.push(sendEmail(p)))
+    .forEach(p => promises.push(sendEmail(p), sendSMS(p)))
 
   Promise.all(promises)
     .then(() => context.succeed("OK"))
