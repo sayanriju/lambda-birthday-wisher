@@ -1,0 +1,11 @@
+{
+  "utc_offset_minutes": -240,
+  "people": [
+    {
+      "name": "Sayan",
+      "email": "s26c.sayan@gmail.com",
+      "phone": "9876543210",
+      "birthday": "05/04/1983"
+    }
+  ]
+}
