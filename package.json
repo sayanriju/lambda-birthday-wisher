@@ -15,7 +15,7 @@
   "author": "Sayan \"Riju\" Chakrabarti <s26c.sayan@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "claudia": "^3.3.1"
+    "claudia": "^5.5.0"
   },
   "dependencies": {
     "date-fns": "^1.29.0",
